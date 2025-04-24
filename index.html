@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="icons/icons.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page">
+        <div class="login-container">
+            <h2><span class="icon icon-clinic icon-lg"></span> Medicine Manager</h2>
+            <p class="login-subtitle">Please login to access the system</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <span class="icon icon-user"></span>
+                    <input type="text" id="username" placeholder="Username (try: user1)" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon icon-lock"></span>
+                    <input type="password" id="password" placeholder="Password (try: password1)" required>
+                </div>
+                <button type="submit" class="login-button">Login <span class="icon icon-sign-in"></span></button>
+            </form>
+            <p id="login-error" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home-page" class="hidden">
+        <header class="app-header">
+            <div class="header-left">
+                <h2><span class="icon icon-clinic icon-lg"></span> Medicine Inventory</h2>
+            </div>
+            <div class="header-right">
+                <button id="logout-button" class="button"><span class="icon icon-sign-out"></span> Logout</button>
+            </div>
+        </header>
+        
+        <main class="app-main">
+            <section class="medicine-stats">
+                <div class="stat-card">
+                    <h4>Total Medicines</h4>
+                    <p id="total-medicines">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Total Categories</h4>
+                    <p id="total-categories">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Low Stock</h4>
+                    <p id="low-stock">0</p>
+                </div>
+            </section>
+
+            <section class="medicine-list">
+                <div class="section-header">
+                    <h3>Medicine List</h3>
+                    <button id="add-medicine-button" class="button"><span class="icon icon-plus"></span> Add Medicine</button>
+                </div>
+                <div class="table-container">
+                    <table id="medicine-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Medicine rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Add Medicine Modal -->
+        <div id="add-medicine-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><span class="icon icon-pills"></span> Add Medicine</h3>
+                    <button id="close-modal" class="close-button"><span class="icon icon-close"></span></button>
+                </div>
+                <form id="add-medicine-form">
+                    <div class="form-group">
+                        <label for="medicine-name">Medicine Name</label>
+                        <input type="text" id="medicine-name" placeholder="e.g., Paracetamol" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-category">Category</label>
+                        <input type="text" id="medicine-category" placeholder="e.g., Painkiller" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-price">Price ($)</label>
+                        <input type="number" id="medicine-price" placeholder="e.g., 10.99" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-quantity">Quantity</label>
+                        <input type="number" id="medicine-quantity" placeholder="e.g., 100" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-manufacturer">Manufacturer</label>
+                        <input type="text" id="medicine-manufacturer" placeholder="e.g., XYZ Pharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-expiry">Expiry Date</label>
+                        <input type="date" id="medicine-expiry" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-unit">Unit</label>
+                        <select id="medicine-unit" required>
+                            <option value="">Select Unit</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="capsule">Capsule</option>
+                            <option value="liquid">Liquid</option>
+                            <option value="cream">Cream</option>
+                            <option value="injection">Injection</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="medicine-description">Description</label>
+                        <textarea id="medicine-description" placeholder="Additional information about the medicine..." rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-add" class="button secondary-button">Cancel</button>
+                        <button type="submit" class="button primary-button"><span class="icon icon-plus-circle"></span> Add Medicine</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal" class="modal hidden">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h3><span class="icon icon-warning"></span> Confirm Deletion</h3>
+                <button id="close-delete-modal" class="close-button"><span class="icon icon-close"></span></button>
+            </div>
+            <div class="delete-modal-body">
+                <p>Are you sure you want to delete <span id="medicine-to-delete">this medicine</span>?</p>
+                <p class="delete-warning">This action cannot be undone.</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="cancel-delete" class="button secondary-button">Cancel</button>
+                <button type="button" id="confirm-delete" class="button danger-button"><span class="icon icon-trash"></span> Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
