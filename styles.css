@@ -64,7 +64,44 @@ body {
 
 .login-subtitle {
     color: var(--light-text);
-    margin-bottom: 25px;
+    margin-bottom: 18px;
+}
+
+.auth-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.auth-toggle-btn {
+    background-color: #eef1ff;
+    color: var(--primary-color);
+    border: 1px solid #d6dcff;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.auth-toggle-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.auth-toggle-btn:hover {
+    transform: none;
+    background-color: #dbe2ff;
+}
+
+.auth-toggle-btn.active:hover {
+    background-color: var(--secondary-color);
+}
+
+.password-hint {
+    font-size: 12px;
+    color: var(--light-text);
+    text-align: left;
+    margin-top: -8px;
+    margin-bottom: 10px;
 }
 
 .input-group {

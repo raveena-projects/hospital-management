@@ -12,19 +12,43 @@
     <div id="login-page">
         <div class="login-container">
             <h2><span class="icon icon-clinic icon-lg"></span> Medicine Manager</h2>
-            <p class="login-subtitle">Please login to access the system</p>
+            <p class="login-subtitle">Create an account or login to access the system</p>
+
+            <div class="auth-toggle">
+                <button type="button" id="show-login" class="auth-toggle-btn active">Login</button>
+                <button type="button" id="show-signup" class="auth-toggle-btn">Sign Up</button>
+            </div>
+
             <form id="login-form">
                 <div class="input-group">
                     <span class="icon icon-user"></span>
-                    <input type="text" id="username" placeholder="Username (try: user1)" required>
+                    <input type="email" id="login-email" placeholder="Email (try: user1@clinic.com)" required>
                 </div>
                 <div class="input-group">
                     <span class="icon icon-lock"></span>
-                    <input type="password" id="password" placeholder="Password (try: password1)" required>
+                    <input type="password" id="login-password" placeholder="Password (try: Password@123)" required>
                 </div>
                 <button type="submit" class="login-button">Login <span class="icon icon-sign-in"></span></button>
             </form>
             <p id="login-error" class="error"></p>
+
+            <form id="signup-form" class="hidden">
+                <div class="input-group">
+                    <span class="icon icon-envelope"></span>
+                    <input type="email" id="signup-email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon icon-user"></span>
+                    <input type="text" id="signup-name" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon icon-lock"></span>
+                    <input type="password" id="signup-password" placeholder="Create Password" required>
+                </div>
+                <p class="password-hint">Password must include at least one uppercase, one lowercase, one number, and one special character.</p>
+                <button type="submit" class="login-button">Create Account <span class="icon icon-user-plus"></span></button>
+            </form>
+            <p id="signup-error" class="error"></p>
         </div>
     </div>
 

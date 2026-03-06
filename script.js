@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Mock login credentials
+    // Mock user records
     const users = {
-        user1: "password1", // Username: user1, Password: password1
-        user2: "password2"  // Username: user2, Password: password2
+        "user1@clinic.com": { name: "User One", password: "Password@123" },
+        "user2@clinic.com": { name: "User Two", password: "Password@456" }
     };
 
     // Elements
     const loginPage = document.getElementById("login-page");
     const homePage = document.getElementById("home-page");
     const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
     const medicineTable = document.getElementById("medicine-table").getElementsByTagName("tbody")[0];
     const addMedicineButton = document.getElementById("add-medicine-button");
     const addMedicineModal = document.getElementById("add-medicine-modal");
@@ -17,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const addMedicineForm = document.getElementById("add-medicine-form");
     const logoutButton = document.getElementById("logout-button");
     const loginError = document.getElementById("login-error");
+    const signupError = document.getElementById("signup-error");
+    const showLoginButton = document.getElementById("show-login");
+    const showSignupButton = document.getElementById("show-signup");
     
     // Delete confirmation modal elements
     const deleteConfirmModal = document.getElementById("delete-confirm-modal");
@@ -25,6 +29,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmDeleteButton = document.getElementById("confirm-delete");
     const medicineToDeleteSpan = document.getElementById("medicine-to-delete");
     
+
+    function isStrongPassword(password) {
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/;
+        return strongPasswordRegex.test(password);
+    }
+
+    function showLoginForm() {
+        loginForm.classList.remove("hidden");
+        signupForm.classList.add("hidden");
+        showLoginButton.classList.add("active");
+        showSignupButton.classList.remove("active");
+        loginError.textContent = "";
+        signupError.textContent = "";
+    }
+
+    function showSignupForm() {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        showSignupButton.classList.add("active");
+        showLoginButton.classList.remove("active");
+        loginError.textContent = "";
+        signupError.textContent = "";
+    }
+
+    showLoginButton.addEventListener("click", showLoginForm);
+    showSignupButton.addEventListener("click", showSignupForm);
+
     // Current medicine index to delete
     let medicineIndexToDelete = -1;
     
@@ -168,18 +199,48 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById("login-email").value.trim().toLowerCase();
+        const password = document.getElementById("login-password").value;
 
-        if (users[username] === password) {
+        if (users[email] && users[email].password === password) {
             loginPage.classList.add("hidden");
             homePage.classList.remove("hidden");
             displayMedicines();
             resetFormFields(loginForm);
             loginError.textContent = "";
         } else {
-            loginError.textContent = "Invalid username or password.";
+            loginError.textContent = "Invalid email or password.";
         }
+    });
+
+    // Sign up function
+    signupForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("signup-email").value.trim().toLowerCase();
+        const name = document.getElementById("signup-name").value.trim();
+        const password = document.getElementById("signup-password").value;
+
+        if (!email || !name || !password) {
+            signupError.textContent = "All fields are required.";
+            return;
+        }
+
+        if (!isStrongPassword(password)) {
+            signupError.textContent = "Password must include uppercase, lowercase, number, and special character.";
+            return;
+        }
+
+        if (users[email]) {
+            signupError.textContent = "An account with this email already exists.";
+            return;
+        }
+
+        users[email] = { name, password };
+        signupError.textContent = "";
+        resetFormFields(signupForm);
+        showLoginForm();
+        showNotification("Account created successfully. Please login.", "success");
     });
 
     // Add medicine functionality
