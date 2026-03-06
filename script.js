@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     function isStrongPassword(password) {
-        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/;
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d\s]).+$/;
         return strongPasswordRegex.test(password);
     }
 
